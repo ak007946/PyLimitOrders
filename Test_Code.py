@@ -1,16 +1,13 @@
-class Order:
-    def __init__(self, order_type, product_id, amount, limit_price):
-        self.order_type = order_type  # 'buy' or 'sell'
-        self.product_id = product_id
-        self.amount = amount
-        self.limit_price = limit_price
 
-    def __repr__(self):
-        return f"{self.order_type.capitalize()} {self.amount} shares of {self.product_id} at ${self.limit_price}"
+from typing import List, Dict, Any
+from trading_framework.execution_client import ExecutionClient
+from trading_framework.price_listener import PriceListener
 
-class LimitOrderAgent:
-    def __init__(self):
-        self.orders = []  # List to hold orders
+class LimitOrderAgent(PriceListener):
+    def __init__(self, execution_client: ExecutionClient) -> None:
+        self.execution_client = execution_client
+        self.orders = []  # A list to store orders
+
 
     def add_order(self, order_type, product_id, amount, limit_price):
         """Add an order to the agent's order list."""
